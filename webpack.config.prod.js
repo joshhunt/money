@@ -29,6 +29,14 @@ module.exports = {
       test: /\.js$/,
       loaders: ['babel'],
       include: path.join(__dirname, 'src')
+    },{
+      test: /\.styl$/,
+      loaders: [
+        'style?singleton',
+        'css?modules&importLoaders=2&sourceMap&localIdentName=[path]--[local]--[hash:base64:5]',
+        'autoprefixer?browsers=last 2 version',
+        'stylus?outputStyle=expanded&sourceMap'
+      ]
     }]
   }
 };
