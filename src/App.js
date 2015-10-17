@@ -3,11 +3,13 @@ import numeral from 'numeral';
 
 import styles from './styles.styl';
 
-class Currency extends Component {
-  render() {
-    const moolah = numeral(Math.ceil(this.props.value)).format('$0,0[.]00')
-    return <strong>{moolah}</strong>
-  }
+const Currency = ({value}) => {
+  const moolah = numeral(Math.ceil(value)).format('$0,0[.]00');
+  return <strong>{moolah}</strong>;
+}
+
+const Percent = ({value}) => {
+  return <span>{numeral(value).format('0%')}</span>;
 }
 
 export class App extends Component {
