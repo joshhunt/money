@@ -126,7 +126,7 @@ export class App extends Component {
             : null }
 
           { showTax
-            ? <li><strong><Currency value={this.state.tax} /></strong> for income tax <small>({this.state.rate * 100}%)</small></li>
+            ? <li><strong><Currency value={this.state.tax} /></strong> for income tax <small>(<Percent value={this.state.rate}/>)</small></li>
             : null }
         </ul>
 
