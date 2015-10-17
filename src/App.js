@@ -32,14 +32,12 @@ export class App extends Component {
   };
 
   handleIncomeChange(event) {
-    if (!event.target.value) { return; }
-    this._ourData.rawIncome = event.target.value
+    this._ourData.rawIncome = event.target.value || '0'
     this.calculate.call(this);
   }
 
   handleTaxRateChange(event) {
-    if (!event.target.value) { return; }
-    this._ourData.rawTaxRate = event.target.value
+    this._ourData.rawTaxRate = event.target.value || '0'
     this.calculate.call(this);
   }
 
