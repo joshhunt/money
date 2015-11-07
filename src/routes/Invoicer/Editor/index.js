@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+
 import TextField from 'material-ui/lib/text-field'
+import FlatButton from 'material-ui/lib/flat-button'
+
 import LightTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme';
 const ThemeManager = require('material-ui/lib/styles/theme-manager');
 const ThemeDecorator = require('material-ui/lib/styles/theme-decorator');
@@ -32,20 +35,30 @@ export default class Editor extends Component {
       {key: 'clientProject', label: 'Client project'},
       {key: 'invoiceId', label: 'Invoice ID'},
       {key: 'roleId', label: 'Role ID'},
+      {key: 'baseRate', label: 'Base rate ($)', },
+      {key: 'rateUnit', label: 'Rate unit', defaultValue: 'Days'},
     ]
 
     return (
       <div className={styles.root}>
-        <h2>Edit Invoice details</h2>
+        <h2>Edit Invoice</h2>
 
-        {fields.map(field => (
-          <span key={field.key}>
-            <TextField
-              value={this.state.data[field.key]}
-              floatingLabelText={field.label}
-              onChange={this._fieldChanged.bind(this, field.key)}
-            /> {' '} </span>
-        ))}
+        <FlatButton label="New Invoice ID" /> {' '}
+        <FlatButton label="Fill out month" />
+
+        <form>
+          {fields.map(field => (
+            <span key={field.key}>
+              <TextField
+                style={{width: '49.5%'}}
+                value={this.state.data[field.key]}
+                floatingLabelText={field.label}
+                defaultValue={field.defaultValue}
+                onChange={this._fieldChanged.bind(this, field.key)}
+              /> {' '} </span>
+          ))}
+
+        </form>
       </div>
     );
   }

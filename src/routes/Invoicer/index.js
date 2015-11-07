@@ -80,7 +80,7 @@ export default class Invoicer extends Component {
               </div>
 
               <div className={styles.invoiceCell}>
-                Days
+                {fields.rateUnit}
               </div>
 
               <div className={styles.invoiceCell}>
@@ -98,7 +98,7 @@ export default class Invoicer extends Component {
               </div>
 
               <div className={styles.invoiceCell}>2</div>
-              <div className={styles.invoiceCell}>$190</div>
+              <div className={styles.invoiceCell}>${fields.baseRate}</div>
               <div className={styles.invoiceCell}>$380</div>
             </div>
 
@@ -108,7 +108,7 @@ export default class Invoicer extends Component {
               </div>
 
               <div className={styles.invoiceCell}>2</div>
-              <div className={styles.invoiceCell}>$190</div>
+              <div className={styles.invoiceCell}>${fields.baseRate}</div>
               <div className={styles.invoiceCell}>$380</div>
             </div>
 
@@ -117,8 +117,8 @@ export default class Invoicer extends Component {
                 Agile development surcharge
               </div>
 
-              <div className={styles.invoiceCell}>3</div>
-              <div className={styles.invoiceCell}>$190</div>
+              <div className={styles.invoiceCell}>-</div>
+              <div className={styles.invoiceCell}>-</div>
               <div className={styles.invoiceCell}>$570</div>
             </div>
 
