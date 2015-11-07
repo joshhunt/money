@@ -2,26 +2,35 @@ import React, { Component } from 'react';
 import styles from './styles.styl';
 import cx from 'classnames';
 
-// import Editor from './Editor';
+import Editor from './Editor';
 
 export default class Invoicer extends Component {
   constructor() {
     super();
     document.body.classList.add(styles.body);
+    const initialFields = JSON.parse(localStorage.getItem('store') || '{}');
+    this.state = {fields: initialFields};
+  }
+
+  dataChanged(newData) {
+    this.setState({fields: {...newData} });
+    localStorage.setItem('store', JSON.stringify(newData));
   }
 
   render() {
+    const {fields} = this.state;
+
     return (
       <div className={styles.root}>
 
-        <Editor />
+        <Editor initialFields={fields} onChange={this.dataChanged.bind(this)} />
 
         <div className={styles.invoice}>
 
           <div className={styles.header}>
             <div className={styles.headerName}>
-              <div className={styles.myName}>Josh Hunt</div>
-              <div className={styles.abn}><strong>ABN:</strong> 811 550 972 55</div>
+              <div className={styles.myName}>{fields.name}</div>
+              <div className={styles.abn}><strong>ABN:</strong> {fields.abn}</div>
             </div>
             <div className={styles.headerHalf}>
               <div className={styles.topRightText}>Invoice</div>
@@ -36,12 +45,12 @@ export default class Invoicer extends Component {
 
             <div className={cx(styles.detailBox, styles.two)}>
               <div className={styles.detailLabel}>Billed to</div>
-              <div className={styles.detailValue}>Ninemsn Pty Ltd</div>
+              <div className={styles.detailValue}>{fields.clientName}</div>
             </div>
 
             <div className={cx(styles.detailBox, styles.three)}>
               <div className={styles.detailLabel}>Role ID</div>
-              <div className={styles.detailValue}>5775</div>
+              <div className={styles.detailValue}>{fields.roleId}</div>
             </div>
           </div>
 
@@ -53,12 +62,12 @@ export default class Invoicer extends Component {
 
             <div className={cx(styles.detailBox, styles.two)}>
               <div className={styles.detailLabel}>Project</div>
-              <div className={styles.detailValue}>TV Team - 9Now</div>
+              <div className={styles.detailValue}>{fields.clientProject}</div>
             </div>
 
             <div className={cx(styles.detailBox, styles.three)}>
               <div className={styles.detailLabel}>Invoice ID</div>
-              <div className={styles.detailValue}>#89FC0FB</div>
+              <div className={styles.detailValue}>#{fields.invoiceId}</div>
             </div>
           </div>
 

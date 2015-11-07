@@ -1,8 +1,20 @@
-// @import '../styles'
+@import '../variables'
 
 ///
 // Editor
 //
 .root
   flex: 1 1 100%
-  background: altAccentColor
+  background: lighten(backgroundColor, 90%)
+  box-shadow: 0 0 15px -3px #1E1F1F
+  z-index: 2
+  font-family: soleilFontFamily
+  color: textColor
+  padding: 30px
+
+
+
+@media print
+
+  .root
+    display: none
