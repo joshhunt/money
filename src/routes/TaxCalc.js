@@ -1,18 +1,9 @@
 import React, { Component } from 'react';
-import numeral from 'numeral';
+import {Currency, Percent} from './../common';
 
-import styles from './styles.styl';
+import styles from './../styles.styl';
 
-const Currency = ({value}) => {
-  const moolah = numeral(Math.ceil(value)).format('$0,0[.]00');
-  return <strong>{moolah}</strong>;
-}
-
-const Percent = ({value}) => {
-  return <span>{numeral(value).format('0%')}</span>;
-}
-
-export class App extends Component {
+export default class App extends Component {
   constructor() {
     super();
     this._ourData = {
