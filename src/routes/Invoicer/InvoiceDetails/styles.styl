@@ -1,0 +1,30 @@
+@import '../variables'
+
+.row
+  display: flex
+  justify-content: space-between
+
+.box
+  padding: rowInnerPadding 0
+  border-top: 1px solid borderColor
+  flex: 0 0 auto
+
+  &:nth-child(1) { flex-basis: onePercentage }
+  &:nth-child(2) { flex-basis: twoPercentage }
+  &:nth-child(3) { flex-basis: threePercentage }
+
+.label
+  color: altTextColor
+  text-transform: uppercase
+  font-size: fontSizeSmall
+  font-weight: 600
+  margin-bottom: 1.4em
+  letter-spacing: .5px
+
+.value
+  font-size: fontSizeBase
+
+.valueBig
+  composes: value
+  font-size: fontSizeLarge
+  margin-top: -3px // to nudge back up in line with regular value

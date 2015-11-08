@@ -25,9 +25,9 @@ module.exports = {
       test: /\.styl$/,
       loaders: [
         'style?singleton',
-        'css?modules&importLoaders=2&sourceMap&localIdentName=[local]--[hash:base64:3]',
+        'css?modules&importLoaders=2&localIdentName=[local]--[hash:base64:3]',
         'autoprefixer?browsers=last 2 version',
-        'stylus?outputStyle=expanded&sourceMap'
+        'stylus?outputStyle=expanded'
       ]
     }]
   }

@@ -1,0 +1,30 @@
+@import '../variables'
+
+.header
+  display: flex
+  padding-bottom: 20px
+  min-height: 128px
+
+.headerHalf
+  flex-basis: 50%
+
+  & + &
+    text-align: right
+
+.headerName
+  composes: headerHalf
+
+.topRightText
+  font-size: 26px
+  text-transform: uppercase
+  letter-spacing: 6px
+  color: accentColor
+  font-weight: 600
+
+.myName
+  color: accentColor
+  font-size: 41px
+  margin-bottom: 8px
+
+.abn
+  font-size: 15px

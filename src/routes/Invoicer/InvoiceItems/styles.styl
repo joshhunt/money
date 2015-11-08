@@ -1,0 +1,32 @@
+@import '../variables'
+
+///
+// Invoice Table
+///
+.root
+  margin-top: sectionPadding
+  color: accentColor
+
+.row
+  display: flex
+  border-top: 1px solid accentColor
+  font-size: 15px
+
+.header
+  composes: row
+  text-transform: uppercase
+  font-weight: 600
+
+  &, & + .row { border-top-width: 3px }
+
+.cell
+  flex: 1 1 100%
+  margin-top: -1px
+  padding: 20px 7px
+  text-align: right
+
+  &:first-child { text-align: left}
+
+  &:nth-child(2) { flex: 0 0 20% }
+  &:nth-child(3) { flex: 0 0 20% }
+  &:nth-child(4) { flex: 0 0 20% }

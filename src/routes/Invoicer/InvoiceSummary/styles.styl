@@ -1,0 +1,85 @@
+@import '../variables'
+
+.root
+  display: flex
+  margin-top: sectionPadding
+  background: altAccentColor
+  color: darken(textColor, 40%)
+
+.item
+  composes: box from '../InvoiceDetails/styles.styl'
+  padding: rowInnerPadding
+  flex: 0 0 20% !important
+  border: none
+
+.label
+  color: darken(borderColor, 40%)
+  composes: label from '../InvoiceDetails/styles.styl'
+
+.value
+  composes: valueBig from '../InvoiceDetails/styles.styl'
+
+.itemTotal
+  composes: item
+  flex-basis: 40% !important
+  background: accentColor
+  text-align: right
+  color: white
+
+  .label
+    color: #CEE5FF
+
+.operator
+  composes: item
+  flex-basis: auto !important
+  padding-left: 0
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
+.operatorEquals
+  composes: operator
+  flex: 1 1 100% !important
+
+.plus
+  _sideA = 4px
+  _sideB = 18px
+
+  width: _sideB
+  height: _sideB
+  position: relative
+
+  &:after,
+  &:before
+    content: ''
+    background: white
+    display: block
+    position: absolute
+
+  &:after
+    height: _sideB
+    width: _sideA
+    left: (_sideB / 2) - (_sideA / 2)
+
+  &:before
+    height: _sideA
+    width: _sideB
+    top: (_sideB / 2) - (_sideA / 2)
+
+.equals
+  _sideA = 4px
+  _sideB = 18px
+
+  width: _sideB
+  height: _sideB
+  display: flex
+  flex-direction: column
+  justify-content: space-around
+  align-self: flex-end
+
+  div
+    background: white
+    display: block
+    height: _sideA
+    width: _sideB
