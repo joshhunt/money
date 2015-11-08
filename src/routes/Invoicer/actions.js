@@ -1,5 +1,8 @@
-export const UPDATE_INVOICE = 'UPDATE_INVOICE';
+export const UPDATE_FIELD = 'UPDATE_FIELD';
 
-export function updateInvoice(invoice) {
-  return { type: types.UPDATE_INVOICE, invoice }
+export function updateInvoiceField(fieldName, fieldValue) {
+    return {
+        fieldName, fieldValue,
+        type: UPDATE_FIELD,
+    }
 }

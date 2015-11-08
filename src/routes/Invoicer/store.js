@@ -13,12 +13,12 @@ export const DevTools = createDevTools(
 );
 
 const finalCreateStore = compose(
-  DevTools.instrument(),
-  persistState(
-    window.location.href.match(
-      /[?&]debug_session=([^&]+)\b/
-    )
-  )
+  // DevTools.instrument(),
+  // persistState(
+  //   window.location.href.match(
+  //     /[?&]debug_session=([^&]+)\b/
+  //   )
+  // )
 )(createStore);
 
 export function configureStore(initialState) {

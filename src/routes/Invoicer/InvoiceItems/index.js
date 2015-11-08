@@ -38,7 +38,9 @@ export default function InvoiceItems({items, rateUnit}) {
             </div>
 
             <div className={styles.cell}>{item.quantity || '-'}</div>
-            <div className={styles.cell}>{item.rate || '-'}</div>
+            <div className={styles.cell}>
+              <Currency value={item.rate || '-'} />
+            </div>
             <div className={styles.cell}>
               <Currency value={item.amount || '-'} />
             </div>
