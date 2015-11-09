@@ -1,5 +1,7 @@
 @import '../variables'
 
+formGutter = 2%
+
 ///
 // Editor
 //
@@ -12,7 +14,13 @@
   color: textColor
   padding: 30px
 
+.form
+  display: flex
+  justify-content: space-between
+  flex-wrap: wrap
 
+.halfField
+  flex: 0 0 (50% - formGutter)
 
 @media print
 

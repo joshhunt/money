@@ -28,8 +28,7 @@ export default function InvoiceItems({items, rateUnit}) {
 
       {items && items.map((item) => {
 
-        // const rate = (item.calculatedRate === '-' ? item.calculatedRate : `$${item.calculatedRate}`);
-        // const amount = (item.calculatedAmount === '-' ? item.calculatedAmount : `$${item.calculatedAmount}`);
+        if (!item.description) { return undefined }
 
         return (
           <div className={styles.row}>
@@ -39,10 +38,10 @@ export default function InvoiceItems({items, rateUnit}) {
 
             <div className={styles.cell}>{item.quantity || '-'}</div>
             <div className={styles.cell}>
-              <Currency value={item.rate || '-'} />
+              <Currency value={item.calculatedRate || '-'} />
             </div>
             <div className={styles.cell}>
-              <Currency value={item.amount || '-'} />
+              <Currency value={item.calculatedAmount || '-'} />
             </div>
           </div>
         );

@@ -36,8 +36,9 @@ export default class Invoicer extends Component {
     return (
     <Provider store={store}>
       <div className={styles.root}>
-      <Editor onChange={() => {}} />
-      <Invoice />
+        <Editor onChange={() => {}} />
+        <Invoice />
+        <DevTools />
       </div>
     </Provider>
     );

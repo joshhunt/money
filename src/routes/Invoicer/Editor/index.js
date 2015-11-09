@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import moment from 'moment';
 
-import TextField from 'material-ui/lib/text-field'
+import MuiTextField from 'material-ui/lib/text-field'
 import FlatButton from 'material-ui/lib/flat-button'
 
 import LightTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme';
@@ -11,12 +11,14 @@ const ThemeDecorator = require('material-ui/lib/styles/theme-decorator');
 
 import * as actions from '../actions';
 import InvoiceItemsEditor from './InvoiceItemsEditor';
+import TextField from '../TextField';
 
 import styles from './styles.styl';
 
-console.log(actions);
+const rawTheme = ThemeManager.getMuiTheme(LightTheme);
+rawTheme.rawTheme.palette.primary1Color = '#4099FF';
 
-@ThemeDecorator(ThemeManager.modifyRawThemeFontFamily(ThemeManager.getMuiTheme(LightTheme), 'soleil'))
+@ThemeDecorator(ThemeManager.modifyRawThemeFontFamily(rawTheme, 'soleil'))
 @connect((state) => {
   return {...state.invoice}
 }, actions)
@@ -24,19 +26,10 @@ export default class Editor extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {...props};
   }
 
   _fieldChanged(key, event) {
-    this.setState({[key]: event.target.value});
-    // this.props.updateInvoiceField(key, event.target.value);
-    // const newData = {
-    //   ...this.state.data,
-    //   [key]: event.target.value,
-    // };
-    // this.setState({data: newData});
-
-    // this.props.onChange(newData);
+    this.props.updateInvoiceField(key, event.target.value);
   }
 
   _invoiceItemsChanged(newInvoiceItems) {
@@ -60,16 +53,40 @@ export default class Editor extends Component {
         <h2 style={{marginTop: 0}}>Edit Invoice</h2>
 
         <FlatButton label="New Invoice ID" /> {' '}
+        <FlatButton label="Generate Month" onClick={this.props.makeInvoiceMonth} /> {' '}
 
-        <form>
+        <form className={styles.form}>
           {fields.map(field => (
-            <span key={field.key}>
-              <input type="text" value={this.props[field.key]} onChange={this._fieldChanged.bind(this, field.key)} />
-              {' '} </span>
+            <div className={styles.halfField} key={field.key}>
+              <TextField
+                label={field.label}
+                value={this.props[field.key]}
+                onChange={this._fieldChanged.bind(this, field.key)}
+              />
+            </div>
           ))}
         </form>
 
-        <InvoiceItemsEditor initialItems={this.props.invoiceItems} baseRate={this.state.data.baseRate} />
+        <InvoiceItemsEditor items={this.props.invoiceItems} baseRate={this.props.baseRate} onFieldChange={this.props.updateInvoiceItem} />
+
+
+        <h3>Payment details</h3>
+
+        <MuiTextField
+          style={{width: '100%'}}
+          multiLine={true}
+          value={this.props.paymentDetails}
+          floatingLabelText="Instructions"
+          onChange={this._fieldChanged.bind(this, 'paymentDetails')}
+        />
+        <MuiTextField
+          style={{width: '100%'}}
+          multiLine={true}
+          value={this.props.paymentBank}
+          floatingLabelText="Bank details"
+          onChange={this._fieldChanged.bind(this, 'paymentBank')}
+        />
+
       </div>
     );
   }

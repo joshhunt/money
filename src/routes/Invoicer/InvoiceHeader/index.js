@@ -6,7 +6,7 @@ export default function InvoiceHeader({name, abn}) {
     <div className={styles.header}>
       <div className={styles.headerName}>
         <div className={styles.myName}>{name}</div>
-        <div className={styles.abn}><strong>ABN:</strong> {abn}</div>
+        { abn ? <div className={styles.abn}><strong>ABN:</strong> {abn}</div> : null }
       </div>
 
       <div className={styles.headerHalf}>

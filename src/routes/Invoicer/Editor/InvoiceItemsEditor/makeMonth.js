@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export default function makeMonth(startingDate) {
     const beginningOfMonth = new Date(startingDate)
     beginningOfMonth.setDate(1);
@@ -35,5 +37,13 @@ export default function makeMonth(startingDate) {
         }
     }
 
-    return month;
+    return month.map((week) => {
+      const firstMoment = moment(week[0]);
+      const lastMoment = moment(week[week.length - 1]);
+
+      return {
+        description: `${firstMoment.format('Do')} - ${lastMoment.format('Do MMMM')}`,
+        quantity: week.length,
+      }
+    });
 }

@@ -1,4 +1,17 @@
 @import '../../variables'
 
+formGutter = 1%
+
 .root
-    content: 'hello'
+  margin-top: 30px
+
+.fieldRow
+  display: flex
+  justify-content: space-between
+  flex-wrap: nowrap
+
+.largeField
+  flex: 0 0 (50% - formGutter)
+
+.smallField
+  flex: 1 1 (16% - formGutter)

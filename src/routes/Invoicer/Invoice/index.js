@@ -16,7 +16,6 @@ import styles from './styles.styl';
 export default class Invoice extends Component {
 
   shouldComponentUpdate() {
-    console.log('Asking shouldComponentUpdate')
     if (window._shouldComponentUpdate !== undefined) {
       return window._shouldComponentUpdate
     } else {
@@ -73,7 +72,7 @@ export default class Invoice extends Component {
 
         <InvoiceSummary {...summary} surchargeLabel="GST 10%" />
 
-        <PaymentDetails />
+        <PaymentDetails left={this.props.paymentDetails} right={this.props.paymentBank} />
       </div>
     );
   }
