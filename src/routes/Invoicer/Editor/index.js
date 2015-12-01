@@ -52,7 +52,8 @@ export default class Editor extends Component {
       <div className={styles.root}>
         <h2 style={{marginTop: 0}}>Edit Invoice</h2>
 
-        <FlatButton label="New Invoice ID" /> {' '}
+        <FlatButton label="New Invoice ID" onClick={this.props.newInvoiceId} /> {' '}
+        <FlatButton label="Issue Today" onClick={this.props.issueToday} /> {' '}
         <FlatButton label="Generate Month" onClick={this.props.makeInvoiceMonth} /> {' '}
 
         <form className={styles.form}>
