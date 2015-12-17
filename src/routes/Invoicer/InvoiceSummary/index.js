@@ -7,7 +7,7 @@ export default function InvoiceSummary({subtotal, surcharge, surchargeLabel, tot
     <div className={styles.root}>
       <div className={styles.item}>
         <div className={styles.label}>Subtotal</div>
-        <div className={styles.value}><Currency value={subtotal} /></div>
+        <div className={styles.value}><Currency value={subtotal} doNotRound /></div>
       </div>
 
       <div className={styles.operator}>
@@ -16,7 +16,7 @@ export default function InvoiceSummary({subtotal, surcharge, surchargeLabel, tot
 
       <div className={styles.item}>
         <div className={styles.label}>{surchargeLabel}</div>
-        <div className={styles.value}><Currency value={surcharge} /></div>
+        <div className={styles.value}><Currency value={surcharge} doNotRound /></div>
       </div>
 
       <div className={styles.operatorEquals}>
@@ -27,7 +27,7 @@ export default function InvoiceSummary({subtotal, surcharge, surchargeLabel, tot
 
       <div className={styles.itemTotal}>
         <div className={styles.label}>Total due</div>
-        <div className={styles.value}><Currency value={total} /></div>
+        <div className={styles.value}><Currency value={total} doNotRound /></div>
       </div>
     </div>
   );

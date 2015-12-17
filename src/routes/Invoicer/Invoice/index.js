@@ -54,7 +54,6 @@ export default class Invoice extends Component {
       },
     ];
 
-    const _subtotal = 1200 + 380;
     const summary = {
       subtotal: props.subtotal,
       surcharge: props.surcharge,

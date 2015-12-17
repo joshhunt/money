@@ -38,10 +38,10 @@ export default function InvoiceItems({items, rateUnit}) {
 
             <div className={styles.cell}>{item.quantity || '-'}</div>
             <div className={styles.cell}>
-              <Currency value={item.calculatedRate || '-'} />
+              <Currency value={item.calculatedRate || '-'} doNotRound />
             </div>
             <div className={styles.cell}>
-              <Currency value={item.calculatedAmount || '-'} />
+              <Currency value={item.calculatedAmount || '-'} doNotRound />
             </div>
           </div>
         );

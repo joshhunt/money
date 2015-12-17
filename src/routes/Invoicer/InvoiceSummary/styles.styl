@@ -7,10 +7,7 @@
   color: darken(textColor, 40%)
 
 .item
-  composes: box from '../InvoiceDetails/styles.styl'
   padding: rowInnerPadding
-  flex: 0 0 20% !important
-  border: none
 
 .label
   color: darken(borderColor, 40%)
@@ -31,8 +28,6 @@
 
 .operator
   composes: item
-  flex-basis: auto !important
-  padding-left: 0
   display: flex
   flex-direction: column
   justify-content: center
