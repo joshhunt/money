@@ -1,39 +1,72 @@
 * { box-sizing: border-box; }
 
+// :global
+//   .wf-loading
+//      visibility: hidden
+
+//    .wf-active, .wf-inactive
+//      visibility: visible
+
 body
-  font-family: 'Lato'
+  font-family: "soleil", sans-serif;
   font-size: 20px
-  background: #151718
-  color: invert(#151718)
+  background: #FEFEFC
+  color: #656667
   padding: 0 20px
 
 .appRoot
   width: 100%
+  min-height: 100vh
   max-width: 700px
-  margin: 50px auto 0 auto
+  margin: 0 auto
   text-align: left
-
-.inputs
+  overflow: auto
   display: flex
-  flex-wrap: wrap
+  flex-direction: column
 
-  .text
-    position: relative
-    top: 5px
-    flex: 0 0 auto
+.main
+  margin-top: 50px
+  flex-grow: 1
 
-.input
-  background: none
-  border: 1px none lighten(#151718, 50%)
-  border-bottom-style: solid
-  color: invert(#151718)
-  padding: 5px
-  text-align: center
-  outline: none !important
-  margin: 0 10px
+// Tax calculator
+.heading
+  margin: 0;
+  font-weight: 600
 
-  &.income { width: 65% }
-  &.rate { width: 35% }
+.form
+  display: flex
+  justify-content: space-between
 
-.result
-  margin-top: 2em
+  > div
+    flex: 0 0 48%
+
+.resultsTable
+  td, th
+    padding-right: 1.5ch
+
+  strong
+    font-weight: 600
+
+.subheading
+  font-weight: 600
+  margin: 1.5em 0 .5em
+
+.fineprint
+  font-size: 12px
+  padding-bottom: 15px
+
+
+:global
+  .example-enter
+    opacity: 0.01
+
+  .example-enter.example-enter-active
+    opacity: 1
+    transition: opacity 150ms ease-out
+
+  .example-leave
+    opacity: 1
+
+  .example-leave.example-leave-active
+    opacity: 0.01
+    transition: opacity 150ms ease-in

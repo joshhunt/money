@@ -1,8 +1,75 @@
 import React, { Component } from 'react';
 import {Currency, Percent} from './../common';
 
+import LightTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme';
+import TextField from 'material-ui/lib/text-field'
+
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 import styles from './../styles.styl';
 
+function getTaxRate(rawTaxRate, yearlyIncome) {
+  const cleanedTaxRate = rawTaxRate.replace(/[^\d.-]/g, '');
+  const parsedTaxRate = parseFloat(cleanedTaxRate);
+  let rate = 0.0;
+
+  if (cleanedTaxRate.length && parsedTaxRate > 1) {
+    rate = parsedTaxRate / 100;
+  } else if (cleanedTaxRate.length && parsedTaxRate > 0) {
+    rate = parsedTaxRate;
+  } else if (yearlyIncome >= 180000) {
+    rate = 0.47;
+  } else if (yearlyIncome >= 80000) {
+    rate = 0.37;
+  } else if (yearlyIncome >= 37000) {
+    rate = 0.325;
+  } else if (yearlyIncome >= 18200) {
+    rate = 0.19;
+  }
+
+  return Math.min(rate, 1);
+}
+
+const ResultsTable = ({gst, tax, leftover}) => {
+  const gstRow = (
+    <tr>
+      <td>GST</td>
+      <td><strong><Currency value={gst} /></strong></td>
+    </tr>
+  );
+
+  const taxRow = (
+    <tr>
+      <td>Tax</td>
+      <td><strong><Currency value={tax} /></strong></td>
+    </tr>
+  );
+
+  const leftoverRow = (
+    <tr>
+      <td>Leftover</td>
+      <td><strong><Currency value={leftover} /></strong></td>
+    </tr>
+  );
+
+
+  return (
+    <table className={styles.resultsTable}>
+      <tbody>
+        {gst ? gstRow : <tr></tr> }
+        {tax ? taxRow : <tr></tr> }
+        {leftover ? leftoverRow : <tr></tr> }
+      </tbody>
+    </table>
+  );
+}
+
+const ThemeManager = require('material-ui/lib/styles/theme-manager');
+const ThemeDecorator = require('material-ui/lib/styles/theme-decorator');
+const rawTheme = ThemeManager.getMuiTheme(LightTheme);
+rawTheme.rawTheme.palette.primary1Color = '#4099FF';
+
+@ThemeDecorator(ThemeManager.modifyRawThemeFontFamily(rawTheme, 'soleil'))
 export default class App extends Component {
   constructor() {
     super();
@@ -12,6 +79,7 @@ export default class App extends Component {
     };
 
     this.state = {
+      displayRate: 'auto',
       gst: 0,
       tax: 0,
       income: 0,
@@ -28,6 +96,8 @@ export default class App extends Component {
   }
 
   handleTaxRateChange(event) {
+    if (event.target.value === this.state.rate) return
+
     this._ourData.rawTaxRate = event.target.value || '0'
     this.calculate.call(this);
   }
@@ -40,34 +110,15 @@ export default class App extends Component {
     const income = invoiceTotal / 1.10;
     const yearlyIncome = income * 12;
     const gst = invoiceTotal - income;
-    let rate;
 
-    const cleanedTaxRate = rawTaxRate.replace(/[^\d.-]/g, '');
-    const parsedTaxRate = parseFloat(cleanedTaxRate);
-
-    if (cleanedTaxRate.length && parsedTaxRate > 1) {
-      rate = parsedTaxRate / 100;
-    } else if (cleanedTaxRate.length && parsedTaxRate > 0) {
-      rate = parsedTaxRate;
-    } else if (yearlyIncome >= 180000) {
-      rate = 0.47;
-    } else if (yearlyIncome >= 80000) {
-      rate = 0.37;
-    } else if (yearlyIncome >= 37000) {
-      rate = 0.325;
-    } else if (yearlyIncome >= 18200) {
-      rate = 0.19;
-    } else {
-      rate = 0.0;
-    }
-
-    if (rate > 1) {
-      rate = 1;
-    }
+    const rate = getTaxRate(rawTaxRate, yearlyIncome);
 
     const tax = income * rate;
     const leftover = income - tax;
-    this.setState({invoiceTotal, income, gst, rate, tax, leftover, yearlyIncome});
+
+    const displayRate = `${rate * 100}%`
+
+    this.setState({invoiceTotal, income, gst, rate, tax, leftover, yearlyIncome, displayRate});
   }
 
   render() {
@@ -76,60 +127,87 @@ export default class App extends Component {
     const showTax = this.state.tax > 0;
     const showResults = showGst || showTax;
 
-    const baseMarkup = (
-      <div>
-        <h1>Monthly Invoice GST & Tax Calculator</h1>
-
-        <div className={styles.inputs}>
-          <div className={styles.text}>Invoice total</div>
-          <input type="text" className={styles.input} placeholder="including GST" onChange={this.handleIncomeChange.bind(this)} />
-
-          <div className={styles.text}>@ tax rate</div>
-
-          <input type="text" className={styles.input} placeholder="auto" onChange={this.handleTaxRateChange.bind(this)} />
-        </div>
-      </div>
-    );
-
-    const notesMarkup = (
-      <small style={{fontSize: '14'}}>
-        <br/>
-        <p>
-          Assumes only income is from invoices calculated through this site.<br/>
-          Uses simplier, more conservative, method for calculating tax which should (in most cases) <em>over estimate</em> tax payable and hopefully lead to over savings.<br/>
-          Of course, this site is not and can not be considered accurate, nor is there any gaurentee that figures shown on this site are correct.<br/>
-          Always seek your own independant financial advice.
-        </p>
-      </small>
-    );
-
     const resultsMarkup = (
-      <div>
-        <p className={styles.result}>
-          Ok, so you need to put away
-        </p>
+      <div className={styles.form} key='lol'>
 
-        <ul>
-          { showGst
-            ? <li><strong><Currency value={this.state.gst} /></strong> for GST</li>
-            : null }
+        <div>
+          <h3 className={styles.subheading}>This month</h3>
+          <ResultsTable
+            gst={this.state.gst}
+            tax={this.state.tax}
+            leftover={this.state.leftover}
+          />
+        </div>
 
-          { showTax
-            ? <li><strong><Currency value={this.state.tax} /></strong> for income tax <small>(<Percent value={this.state.rate}/>)</small></li>
-            : null }
-        </ul>
+        <div>
+          <h3 className={styles.subheading}>Annually</h3>
+          <ResultsTable
+              gst={this.state.gst * 12}
+              tax={this.state.tax * 12}
+              leftover={this.state.leftover * 12}
+            />
+        </div>
 
-        <p>
-          And you have <strong><Currency value={this.state.leftover} /></strong> to spend or save or whatever.
-        </p>
       </div>
     );
+
+    const textFieldStyles = {
+      fontSize: 20,
+      lineHeight: 1.5,
+      heightFactor: 3,
+    }
+
+    const floatingLabelStyle = { top: textFieldStyles.fontSize * 2.4 } // magic!
+
+    textFieldStyles.height = textFieldStyles.fontSize * textFieldStyles.lineHeight * textFieldStyles.heightFactor;
 
     return (
       <div className={styles.appRoot}>
-        {baseMarkup}
-        {showResults ? resultsMarkup : null }
-        {notesMarkup}
+        <div className={styles.main}>
+          <h1 className={styles.heading}>Quick & Dirty Invoice Tax Estimator</h1>
+
+          <div>
+            <div className={styles.form}>
+
+              <TextField
+                style={textFieldStyles}
+                floatingLabelStyle={floatingLabelStyle}
+                fullWidth={true}
+                floatingLabelText='Invoice total'
+                hintText='Including GST'
+                onChange={this.handleIncomeChange.bind(this)}
+              />
+
+              <TextField
+                style={textFieldStyles}
+                floatingLabelStyle={floatingLabelStyle}
+                fullWidth={true}
+                floatingLabelText={`Tax rate (${this.state.displayRate})`}
+                hintText={this.state.displayRate}
+                onChange={this.handleTaxRateChange.bind(this)}
+              />
+            </div>
+
+            <div className={styles.results}>
+              <ReactCSSTransitionGroup transitionName="example" transitionEnterTimeout={150} transitionLeaveTimeout={150}>
+                {showResults ? resultsMarkup : null }
+              </ReactCSSTransitionGroup>
+            </div>
+
+          </div>
+        </div>
+
+        <div className={styles.fineprint}>
+          <br/>
+          <p>
+            Assumes only income is from invoices calculated through this site.
+            Annual is estimate only, based on monthly income extrapolated over the full year.
+            Uses simplier, more conservative, method for calculating tax which should (in most cases) <em>over estimate</em> tax payable and hopefully lead to over savings.
+            Of course, this site is not and can not be considered accurate, nor is there any gaurentee that figures shown on this site are correct.
+            Always seek your own independant financial advice.
+          </p>
+        </div>
+
       </div>
     );
   }
