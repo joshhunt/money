@@ -12,21 +12,17 @@ export default class PaymentDetails extends Component {
   }
 
   componentWillReceiveProps(nextProps, force) {
-    console.log('Calling componentWillReceiveProps');
     this.setState(this.renderMarkdown(nextProps));
   }
 
   renderMarkdown(nextProps, force) {
-    console.log('Calling componentWillReceiveProps');
     const state = {}
 
     if (force || nextProps.left !== this.props.left) {
-      console.log('rendering markdown for left');
       state.mdLeft = md.render(nextProps.left);
     }
 
     if (force || nextProps.right !== this.props.right) {
-      console.log('rendering markdown for right');
       state.mdRight = md.render(nextProps.right);
     }
 

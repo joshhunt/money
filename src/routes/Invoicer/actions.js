@@ -5,8 +5,17 @@ export const UPDATE_INVOICE_ITEM = 'UPDATE_INVOICE_ITEM';
 
 export const MAKE_INVOICE_MONTH = 'MAKE_INVOICE_MONTH';
 export const NEW_INVOICE_ID = 'NEW_INVOICE_ID';
+export const SET_INVOICE = 'SET_INVOICE';
 
+export const SET_USER = 'SET_USER';
 window.moment = moment;
+
+export function setInvoice(data) {
+  return {
+    data,
+    type: SET_INVOICE,
+  }
+}
 
 export function updateInvoiceField(fieldName, fieldValue) {
   return {
@@ -40,5 +49,13 @@ export function issueToday() {
     fieldName: 'dateIssued',
     fieldValue: moment(new Date()).format('D MMM gggg'),
     type: UPDATE_FIELD,
+  }
+}
+
+
+export function setUser(user) {
+  return {
+    user,
+    type: SET_USER,
   }
 }

@@ -1,7 +1,13 @@
 import _ from 'lodash';
-
 import { combineReducers } from 'redux';
-import { UPDATE_FIELD, UPDATE_INVOICE_ITEM, MAKE_INVOICE_MONTH } from './actions';
+
+import {
+  SET_USER,
+  SET_INVOICE,
+  UPDATE_FIELD,
+  UPDATE_INVOICE_ITEM,
+  MAKE_INVOICE_MONTH,
+} from './actions';
 
 import makeMonth from './Editor/InvoiceItemsEditor/makeMonth';
 
@@ -9,7 +15,6 @@ function updateOtherStuff(state) {
   state.invoiceItems = cleanItems(state.invoiceItems);
   state.invoiceItems = calculateAmounts(state.invoiceItems, state.baseRate);
   const totals = calcluateTotals(state.invoiceItems);
-  console.log(totals);
 
   return {...state, ...totals};
 }
@@ -69,66 +74,74 @@ function calcluateTotals(items) {
 const _surchageRate = .1;
 const _subtotal = 1337 * 2;
 
-let initialState = {
-  subtotal: _subtotal,
-  surcharge: _subtotal * _surchageRate,
-  total: _subtotal * (1 + _surchageRate),
+// let initialState = {
+//   subtotal: _subtotal,
+//   surcharge: _subtotal * _surchageRate,
+//   total: _subtotal * (1 + _surchageRate),
 
-  name: 'Josh Hunt',
-  abn: '123 456 789 00',
-  roleId: '1554',
+//   name: 'Josh Hunt',
+//   abn: '123 456 789 00',
+//   roleId: '1554',
 
-  clientName: 'Ninemsn Pty Ltd',
-  clientProject: '9Now',
+//   clientName: 'Ninemsn Pty Ltd',
+//   clientProject: '9Now',
 
-  dateIssued: '21 Sep, 15',
-  invoiceId: '#542F0E',
+//   dateIssued: '21 Sep, 15',
+//   invoiceId: '#542F0E',
 
-  baseRate: '325',
-  rateUnit: 'Days',
+//   baseRate: '325',
+//   rateUnit: 'Days',
 
-  invoiceItems: [
-    {
-      description: 'Estimations',
-      quantity: 2,
-      rate: 190,
-      amount: 380,
-    }, {
-      description: 'Brainstorming',
-      quantity: 2,
-      rate: 190,
-      amount: 380,
-    }, {
-      description: 'Agile development surcharge',
-      quantity: '-',
-      rate: '-',
-      amount: 570,
-    }, {
-      description: 'Web development, 1 Oct - 6 Oct',
-      quantity: 5,
-      rate: 267,
-      amount: 1337,
-    }
-  ],
-};
+//   invoiceItems: [
+//     {
+//       description: 'Estimations',
+//       quantity: 2,
+//       rate: 190,
+//       amount: 380,
+//     }, {
+//       description: 'Brainstorming',
+//       quantity: 2,
+//       rate: 190,
+//       amount: 380,
+//     }, {
+//       description: 'Agile development surcharge',
+//       quantity: '-',
+//       rate: '-',
+//       amount: 570,
+//     }, {
+//       description: 'Web development, 1 Oct - 6 Oct',
+//       quantity: 5,
+//       rate: 267,
+//       amount: 1337,
+//     }
+//   ],
+// };
 
-initialState.invoiceItems = makeMonth(new Date());
+// initialState.invoiceItems = makeMonth(new Date());
 
-initialState.invoiceItems.push({
-  description: 'After hours support',
-  amount: 350,
+// initialState.invoiceItems.push({
+//   description: 'After hours support',
+//   amount: 350,
+// });
+
+// initialState = updateOtherStuff(initialState);
+
+let initialState = updateOtherStuff({
+  invoiceItems: [{
+    description: 'hello',
+    quantity: 1,
+    rate: 1,
+    amount: 1,
+  }]
 });
-
-initialState = updateOtherStuff(initialState);
-
-initialState = {
-  invoiceItems: []
-}
 
 function invoice(state = initialState, action) {
   let newState;
 
   switch (action.type) {
+
+    case SET_INVOICE:
+      return {...action.data};
 
     case UPDATE_FIELD:
       newState = {
@@ -160,5 +173,24 @@ function invoice(state = initialState, action) {
   };
 }
 
-const rootReducer = combineReducers({invoice})
+const initialAppState = {
+  authActive: false
+};
+
+function app(state = initialAppState, action) {
+  switch (action.type) {
+
+    case SET_USER:
+      return {
+        ...state,
+        authActive: true,
+        user: action.user,
+      }
+
+    default:
+      return state
+  }
+}
+
+const rootReducer = combineReducers({invoice, app})
 export default rootReducer

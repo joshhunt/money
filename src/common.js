@@ -10,10 +10,8 @@ export const Currency = ({value, doNotRound}) => {
 		return <span>{value}</span>
 	}
 
-
 	const moolah = numeral(( doNotRound ? val : Math.ceil(val) )).format('$0,0[.]00');
 
-  console.info('Currency:', value, '=>', moolah);
 	return <span>{moolah}</span>;
 }
 

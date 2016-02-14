@@ -7,15 +7,8 @@ import DockMonitor from 'redux-devtools-dock-monitor';
 
 import rootReducer from './reducers'
 
-export const DevTools = createDevTools(
-  <DockMonitor toggleVisibilityKey='H' defaultIsVisible={false} changePositionKey='Q'>
-    <LogMonitor />
-  </DockMonitor>
-);
-
 const finalCreateStore = compose(
-  persistStateToLocalStorage(),
-  DevTools.instrument(),
+  window.devToolsExtension ? window.devToolsExtension() : f => f,
   persistState(
     window.location.href.match(
       /[?&]debug_session=([^&]+)\b/

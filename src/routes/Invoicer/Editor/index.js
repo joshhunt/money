@@ -28,12 +28,24 @@ export default class Editor extends Component {
     super(props);
   }
 
+  static contextTypes = {
+    firebase: React.PropTypes.any,
+  }
+
   _fieldChanged(key, event) {
     this.props.updateInvoiceField(key, event.target.value);
   }
 
   _invoiceItemsChanged(newInvoiceItems) {
     this._fieldChanged.call(this, 'invoiceItems', {target: {value: newInvoiceItems}});
+  }
+
+  _saveToAccount = () => {
+    if (!this.props.invoiceId) {
+      this.props.newInvoiceId();
+    }
+
+    this.context.firebase.save();
   }
 
   render() {
@@ -52,9 +64,12 @@ export default class Editor extends Component {
       <div className={styles.root}>
         <h2 style={{marginTop: 0}}>Edit Invoice</h2>
 
-        <FlatButton label="New Invoice ID" onClick={this.props.newInvoiceId} /> {' '}
-        <FlatButton label="Issue Today" onClick={this.props.issueToday} /> {' '}
-        <FlatButton label="Generate Month" onClick={this.props.makeInvoiceMonth} /> {' '}
+        <div className={styles.buttonGroup}>
+          <FlatButton label="New Invoice ID" onClick={this.props.newInvoiceId} />
+          <FlatButton label="Issue Today" onClick={this.props.issueToday} />
+          <FlatButton label="Generate Month" onClick={this.props.makeInvoiceMonth} />
+          <FlatButton label="Save to account" onClick={this._saveToAccount} />
+        </div>
 
         <form className={styles.form}>
           {fields.map(field => (

@@ -1,45 +1,60 @@
 import 'babel-core/polyfill'
 import React, { Component } from 'react';
-import { Provider } from 'react-redux'
-import {configureStore, DevTools} from './store'
+import { Provider, connect } from 'react-redux'
 
-import Editor from './Editor';
-import Invoice from './Invoice';
+import MyFirebase from './firebase';
+import { configureStore } from './store'
 
+import InvoicerApp from './InvoicerApp';
+import Login from './Login';
 import styles from './styles.styl';
 
 const store = configureStore();
 
-import Perf from 'react-addons-perf';
+@connect((state) => ({
+  authActive: state.app.authActive,
+  isAuthed: !!state.app.user,
+}))
+class Invoicer extends Component {
+  render() {
+    const { authActive, isAuthed } = this.props;
 
-window.Perf = Perf;
-
-window.perfStart = () => {
-  Perf.start();
+    if (!authActive) {
+      return <h1>Loading...</h1>
+    } else if (isAuthed) {
+      return <InvoicerApp />
+    } else {
+      return <Login />
+    }
+  }
 }
 
-window.perfStop = () => {
-  Perf.stop();
-}
+export default class InvoicerRoot extends Component {
+  constructor() {
+    super();
+    this.state = {
+      firebase: new MyFirebase(store),
+    }
+  }
 
-window.perfGet = () => {
-  return Perf.getLastMeasurements();
-}
-
-export default class Invoicer extends Component {
   componentDidMount() {
-    window.perfStart();
     document.body.classList.add(styles.body);
+  }
+
+  static childContextTypes = {
+    firebase: React.PropTypes.any,
+  }
+
+  getChildContext() {
+    return {
+      firebase: this.state.firebase
+    };
   }
 
   render() {
     return (
     <Provider store={store}>
-      <div className={styles.root}>
-        <Editor onChange={() => {}} />
-        <Invoice />
-        <DevTools />
-      </div>
+      <Invoicer />
     </Provider>
     );
   }

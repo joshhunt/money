@@ -30,7 +30,7 @@ export default class Invoice extends Component {
       {
         big: true,
         label: 'Due amount',
-        value: <Currency value={props.total}/>,
+        value: <Currency value={props.total} doNotRound/>,
       }, {
         label: 'Billed to',
         value: props.clientName
