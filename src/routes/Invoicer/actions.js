@@ -38,7 +38,7 @@ export function makeInvoiceMonth() {
 export function newInvoiceId() {
   return {
     fieldName: 'invoiceId',
-    fieldValue: (Math.floor(Date.now() / 1000)).toString(36).toUpperCase(),
+    fieldValue: moment().diff(new Date(1992, 4, 25), 'hours'),
     type: UPDATE_FIELD,
   }
 }

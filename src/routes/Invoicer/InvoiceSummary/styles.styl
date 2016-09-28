@@ -39,6 +39,7 @@
   flex: 1 1 100% !important
 
 .plus
+.minus
   _sideA = 4px
   _sideB = 18px
 
@@ -62,6 +63,10 @@
     height: _sideA
     width: _sideB
     top: (_sideB / 2) - (_sideA / 2)
+
+.minus
+  &:after
+    content: initial
 
 .equals
   _sideA = 4px

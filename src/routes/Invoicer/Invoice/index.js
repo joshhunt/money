@@ -5,7 +5,7 @@ import { Currency } from '../../../common';
 import InvoiceHeader from '../InvoiceHeader';
 import InvoiceDetails from '../InvoiceDetails';
 import InvoiceItems from '../InvoiceItems';
-import InvoiceSummary from '../InvoiceSummary';
+import InvoiceSummary, { InvoiceSummaryTaxDetails } from '../InvoiceSummary';
 import PaymentDetails from '../PaymentDetails';
 
 import styles from './styles.styl';
@@ -70,6 +70,7 @@ export default class Invoice extends Component {
         <InvoiceItems items={props.invoiceItems} rateUnit={props.rateUnit} />
 
         <InvoiceSummary {...summary} surchargeLabel="GST 10%" />
+        {/*<InvoiceSummaryTaxDetails className={styles.fadeOut} {...summary} surchargeLabel="GST 10%" />*/}
 
         <PaymentDetails left={this.props.paymentDetails} right={this.props.paymentBank} />
       </div>

@@ -6,10 +6,14 @@ export default function makeMonth(startingDate) {
 
     let alreadyStarted = false;
 
+    console.log('beginningOfMonth', beginningOfMonth);
+
     let currentDay = beginningOfMonth;
     let previousDay = new Date(currentDay);
     let month = [];
-    let week = [];
+    let week = [
+        currentDay,
+    ];
 
     previousDay.setDate(currentDay.getDate() - 1);
 
@@ -18,7 +22,12 @@ export default function makeMonth(startingDate) {
         currentDay = new Date(previousDay);
         currentDay.setDate(previousDay.getDate() + 1);
 
+        console.group(currentDay);
+        console.log('Previous day:', previousDay)
+
         if (currentDay.getDate() == 1 && alreadyStarted) {
+            console.log('this condition for day', currentDay);
+            console.log('pushing week into month:', week);
             month.push(week)
             break;
         }
@@ -27,22 +36,36 @@ export default function makeMonth(startingDate) {
 
         // if the day has looped back around and its a week
         if (currentDay.getDay() < previousDay.getDay()) {
+            console.log('if the day has looped back around and its a week');
+            console.log('pushing week into month:', week);
             month.push(week);
             week = [];
         }
 
-
         if (currentDay.getDay() >= 1 && currentDay.getDay() <= 5) {
+            console.log('day is that weird condition');
+            console.log({previousDay});
+            console.log({currentDay});
             week.push(currentDay);
         }
+
+        console.groupEnd();
     }
+    console.groupEnd();
 
     return month.map((week) => {
       const firstMoment = moment(week[0]);
       const lastMoment = moment(week[week.length - 1]);
 
+      let description = firstMoment.format('Do');
+      if (week.length === 1) {
+        description += ` ${firstMoment.format('MMMM')}`;
+      } else {
+        description += ` - ${lastMoment.format('Do MMMM')}`;
+      }
+
       return {
-        description: `${firstMoment.format('Do')} - ${lastMoment.format('Do MMMM')}`,
+        description,
         quantity: week.length,
       }
     });
