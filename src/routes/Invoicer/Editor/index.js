@@ -55,7 +55,7 @@ export default class Editor extends Component {
       {key: 'clientName', label: 'Client name'},
       {key: 'clientProject', label: 'Client project'},
       {key: 'invoiceId', label: 'Invoice ID'},
-      {key: 'roleId', label: 'Role ID'},
+      {key: 'dateIssued', label: 'Date issued'},
       {key: 'baseRate', label: 'Base rate', },
       {key: 'rateUnit', label: 'Rate unit', defaultValue: 'Days'},
     ];

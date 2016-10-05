@@ -73,6 +73,7 @@
     "remarkable": "^1.6.0",
     "s3": "^4.4.0",
     "style-loader": "^0.12.4",
-    "stylus-loader": "^1.4.0"
+    "stylus": "^0.54.5",
+    "stylus-loader": "^2.3.1"
   }
 }

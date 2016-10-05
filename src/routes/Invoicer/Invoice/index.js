@@ -34,9 +34,6 @@ export default class Invoice extends Component {
       }, {
         label: 'Billed to',
         value: props.clientName
-      }, {
-        label: 'Role ID',
-        value: props.roleId
       },
     ];
 
@@ -48,9 +45,6 @@ export default class Invoice extends Component {
       }, {
         label: 'Project',
         value: props.clientProject,
-      }, {
-        label: 'Invoice ID',
-        value: props.invoiceId,
       },
     ];
 
@@ -62,7 +56,7 @@ export default class Invoice extends Component {
 
     return (
       <div className={styles.root}>
-        <InvoiceHeader name={props.name} abn={props.abn} />
+        <InvoiceHeader name={props.name} abn={props.abn} invoiceId={props.invoiceId} />
 
         <InvoiceDetails items={firstDetails} />
         <InvoiceDetails items={secondDetails} />
